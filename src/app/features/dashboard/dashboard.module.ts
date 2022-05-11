@@ -11,6 +11,6 @@ import { Dashboard } from "./dashboard";
   ],
   imports: [
     CommonModule
-  ]
+  ],
 })
 export class DashboardModule { }
