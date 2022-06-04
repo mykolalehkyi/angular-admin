@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BreadcrumbsComponent } from './breadcrumbs.component';
+import {NgxMaskModule} from "ngx-mask";
 
 
 
@@ -13,6 +14,7 @@ import { BreadcrumbsComponent } from './breadcrumbs.component';
   ],
   exports:[
     BreadcrumbsComponent,
+    NgxMaskModule,
   ],
 })
 export class BreadcrumbsModule { }
