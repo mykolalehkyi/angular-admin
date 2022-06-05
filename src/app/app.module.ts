@@ -4,7 +4,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BreadcrumbsModule} from "./shared/components/breadcrumbs/breadcrumbs.module";
-import {CommonModule} from "@angular/common";
+import {CommonModule, DatePipe} from "@angular/common";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NgxMaskModule} from "ngx-mask";
 
@@ -20,7 +20,7 @@ import {NgxMaskModule} from "ngx-mask";
     BrowserAnimationsModule,
     NgxMaskModule.forRoot(),
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule {

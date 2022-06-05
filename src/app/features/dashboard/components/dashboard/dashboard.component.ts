@@ -3,26 +3,9 @@ import {IVisitor} from "../../../../shared/interfaces/visitor.interface";
 import {visitorsDataMock} from "../../../../../../testing/mocks/visitorsDataMock";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {MatTableDataSource} from "@angular/material/table";
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+import {DatePipe} from "@angular/common";
+import {ITransaction} from "../../../../shared/interfaces/transaction.interface";
+import {IUser} from "../../../../shared/interfaces/user.interface";
 
 @Component({
   selector: 'app-dashboard',
@@ -30,49 +13,68 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  currentDate!: string;
+  currentUser: IUser = {} as IUser;
 
   visitors: IVisitor[] = [];
   currentVisitor: IVisitor | undefined ;
 
-  users: string[] = [
-    'John',
-    'David',
-    'Julia'
-  ]
+  transactions: ITransaction[] = [];
 
-  userName: string = '';
-  phone!: number;
+  array3Strings = [
+    "String1",
+    "String2",
+    "String3"
+  ];
+  arrayByValue: string[] = [];
+  arrayByReference: string[] = [];
 
-  columns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource: MatTableDataSource<PeriodicElement> = new MatTableDataSource<PeriodicElement>();
+  isIncludes: boolean = false;
+  isEvery: boolean= false;
+  isSome: boolean= false;
 
-  constructor() {
+  private datePipe: DatePipe;
+
+  constructor(datePipe:DatePipe) {
+    this.datePipe = datePipe;
   }
 
   ngOnInit(): void {
-    this.dataSource.data = ELEMENT_DATA;
-
-    const obj1 ={
-      name: '',
-      email: ''
-    }
-
-    let url = 'https://google.com';
-    url = 'jira';
-
-    const setVisitorName = () => {
-      obj1.name = url;
-    }
-
-    this.visitors.forEach((el:IVisitor) => {
-      el.fullName = obj1.name;
-    })
-
     this.getAllVisitors();
     this.currentVisitor = {...this.visitors[0]};
 
-    const isJuliaExist = this.users.includes('Julia');
-    console.log(isJuliaExist);
+    this.updateCurrentDate(this.getFormattedDate);
+    this.updateUser();
+
+    this.arrayByValue = [...this.array3Strings];
+    this.arrayByReference = this.array3Strings;
+    this.array3Strings[0] = "changedStringTo";
+
+    this.isIncludes = this.array3Strings.includes("String1");
+    this.isSome = this.array3Strings.some(x => x.includes("1"));
+    this.isEvery = this.array3Strings.every(x => x.includes("1"));
+
+    this.array3Strings.forEach(x => x = x + "1");
+    this.array3Strings = this.array3Strings.map(x => x.replace("To", " ").trim());
+  }
+
+  getFormattedDate = (date: Date): void => {
+    this.currentDate = `Current date: ${this.datePipe.transform(date, 'MM.dd.yyyy hh:mm a')}`;
+  }
+
+  private updateCurrentDate(callback:any):void{
+    const date = new Date();
+    callback(date);
+  }
+
+  private updateUser(date: Date = new Date(), active: boolean = false): void {
+    this.currentUser = {
+      id: -1,
+      name: 'New user',
+      updatedAt: date.toISOString(),
+      transactions: [...this.transactions],
+      active,
+    }
   }
 
   getAllVisitors(id:number = 0, url? : string){
@@ -86,14 +88,6 @@ export class DashboardComponent implements OnInit {
         counts:99
       }
     ];
-    const currentVisitor ="";
-
-    return {
-      currentVisitor,
-    }
   }
 
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.columns, event.previousIndex, event.currentIndex);
-  }
 }
