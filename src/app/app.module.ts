@@ -7,6 +7,7 @@ import {BreadcrumbsModule} from "./shared/components/breadcrumbs/breadcrumbs.mod
 import {CommonModule, DatePipe} from "@angular/common";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NgxMaskModule} from "ngx-mask";
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {NgxMaskModule} from "ngx-mask";
     BreadcrumbsModule,
     BrowserAnimationsModule,
     NgxMaskModule.forRoot(),
+    NgChartsModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

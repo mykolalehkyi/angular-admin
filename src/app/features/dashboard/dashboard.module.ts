@@ -8,6 +8,7 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
 import {FormsModule} from "@angular/forms";
 import {NgxMaskModule} from "ngx-mask";
 import {RouterModule, Routes} from "@angular/router";
+import {NgChartsModule} from "ng2-charts";
 
 const routes: Routes = [
   {
@@ -26,7 +27,8 @@ const routes: Routes = [
     DragDropModule,
     FormsModule,
     NgxMaskModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    NgChartsModule
   ],
   exports:[
     DashboardComponent,
