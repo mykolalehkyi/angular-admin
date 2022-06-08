@@ -8,6 +8,7 @@ import {ITransaction} from "../../../../shared/interfaces/transaction.interface"
 import {IUser} from "../../../../shared/interfaces/user.interface";
 import {ChartConfiguration, ChartEvent, ChartType} from "chart.js";
 import {BaseChartDirective} from "ng2-charts";
+import {UsersService} from "../../../../shared/services/users.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -36,7 +37,7 @@ export class DashboardComponent implements OnInit {
   isEvery: boolean= false;
   isSome: boolean= false;
 
-  private datePipe: DatePipe;
+  showMessage = false;
 
   public lineChartData: ChartConfiguration['data'] = {
     datasets: [
@@ -88,8 +89,9 @@ export class DashboardComponent implements OnInit {
 
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
-  constructor(datePipe:DatePipe) {
-    this.datePipe = datePipe;
+  constructor(
+    private datePipe:DatePipe,
+    private usersService: UsersService) {
   }
 
   ngOnInit(): void {
@@ -109,6 +111,18 @@ export class DashboardComponent implements OnInit {
 
     this.array3Strings.forEach(x => x = x + "1");
     this.array3Strings = this.array3Strings.map(x => x.replace("To", " ").trim());
+
+    this.usersService.currentUser
+      .subscribe((user: IUser) => {
+        if (user?.name) {
+          this.showMessage = true;
+          this.currentUser = user;
+
+          setTimeout(() => {
+            this.showMessage = false;
+          }, 3000);
+        }
+      });
   }
 
   private static generateNumber(i: number): number {
@@ -131,36 +145,6 @@ export class DashboardComponent implements OnInit {
 
   public chartHovered({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
     console.log(event, active);
-  }
-
-  public hideOne(): void {
-    const isHidden = this.chart?.isDatasetHidden(1);
-    this.chart?.hideDataset(1, !isHidden);
-  }
-
-  public pushOne(): void {
-    this.lineChartData.datasets.forEach((x, i) => {
-      const num = DashboardComponent.generateNumber(i);
-      x.data.push(num);
-    });
-    this.lineChartData?.labels?.push(`Label ${ this.lineChartData.labels.length }`);
-
-    this.chart?.update();
-  }
-
-  public changeColor(): void {
-    this.lineChartData.datasets[2].borderColor = 'green';
-    this.lineChartData.datasets[2].backgroundColor = `rgba(0, 255, 0, 0.3)`;
-
-    this.chart?.update();
-  }
-
-  public changeLabel(): void {
-    if (this.lineChartData.labels) {
-      this.lineChartData.labels[2] = [ '1st Line', '2nd Line' ];
-    }
-
-    this.chart?.update();
   }
 
   getFormattedDate = (date: Date): void => {
@@ -194,5 +178,4 @@ export class DashboardComponent implements OnInit {
       }
     ];
   }
-
 }
