@@ -22,6 +22,10 @@ const routes: Routes = [
     loadChildren: () => import('./features/settings/settings.module').then((m) => m.SettingsModule),
   },
   {
+    path: 'auth',
+    loadChildren: () => import('./features/auth/auth.module').then((m) => m.AuthModule),
+  },
+  {
     path: '**',
     redirectTo: '/error/404'
   }

@@ -7,7 +7,7 @@
 <p [ngClass]="{red:!isSome}">{{isSome}}</p>
 <p [ngClass]="{red:!isEvery}">{{isEvery}}</p>
 
-<div class="flex">
+<div appAccordion class="flex">
   <div class="flex-item">
     <div style="display: block;">
       <canvas baseChart width="400" height="400"
@@ -41,4 +41,8 @@
 <!--USER UPDATE MESSAGE-->
 <div *ngIf="showMessage" class="message-container">
   {{currentUser.name}} was successfully updated!
+</div>
+
+<div class="time-ago-container">
+  {{today | timeAgo}}
 </div>

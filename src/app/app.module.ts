@@ -5,13 +5,16 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BreadcrumbsModule} from "./shared/components/breadcrumbs/breadcrumbs.module";
 import {CommonModule, DatePipe} from "@angular/common";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgxMaskModule} from "ngx-mask";
-import { NgChartsModule } from 'ng2-charts';
+import {NgChartsModule} from 'ng2-charts';
+import {AuthModule} from "./features/auth/auth.module";
+import { AccordionDirective } from './shared/directives/accordion.directive';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AccordionDirective,
   ],
   imports: [
     CommonModule,
@@ -21,8 +24,12 @@ import { NgChartsModule } from 'ng2-charts';
     BrowserAnimationsModule,
     NgxMaskModule.forRoot(),
     NgChartsModule,
+    AuthModule,
   ],
   providers: [DatePipe],
+  exports: [
+    AppComponent,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

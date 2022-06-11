@@ -19,6 +19,7 @@ import {UsersService} from "../../../../shared/services/users.service";
 export class DashboardComponent implements OnInit {
   currentDate!: string;
   currentUser: IUser = {} as IUser;
+  today: Date = new Date();
 
   visitors: IVisitor[] = [];
   currentVisitor: IVisitor | undefined ;
